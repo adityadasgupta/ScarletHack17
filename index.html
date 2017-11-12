@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <title>Hello, WebVR! - A-Frame</title>
+   <meta charset="utf-8">
+   <script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+<!--    <script src = "test.js"></script> -->
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<!--    <script src="jquery-3.2.1.min.js"></script> -->
+    <script type="text/javascript">
+      var counter = 0;
+      var yPos = 0.5;
+      var currentWidth = 8;
+      $(document).ready(function() {
+        $(document).keydown(function(e) {
+          if (e.keyCode == '32') {
+            counter+=1;
+            var text = document.createElement('a-entity');
+            var scene = document.querySelector('a-scene');
+            var entity = document.createElement('a-entity');
+            //text.setAttribute('geometry', 'primitive: plane; width: 4; height: 4');
+            text.setAttribute('text', 'width: 8; value: Score- ' + counter);
+            text.setAttribute('position', '-5 2 -1');
+            entity.setAttribute('id', 'a' + counter);
+            entity.setAttribute('color', '#BD703B');
+            entity.setAttribute('geometry', 'primitive: box; width:${currentWidth}; height:1 ; depth: 1');
+            // entity.setAttribute('height', '1');
+            // entity.setAttribute('depth', '1');
+            // entity.setAttribute('width' , '1.5');
+            // eneity.setAttribute('color', 'blue');
+            entity.setAttribute('shadow');
+            entity.setAttribute('dur', '2000');
+            // box.setAttribute('position', '-1 ' + (counter+.5) + ' -7');
+            var height = counter+.5
+            // console.log('position', '-1 ' + (counter+.5) + ' -7');
+            entity.innerHTML = `
+       <a-animation
+       attribute="position"
+       from="0 ${height} -7"
+       to="10 ${height} -7"
+       repeat = "indefinite"
+       direction="alternate"
+       easing = "ease">
+       </a-animation>
+            `
+            // console.log('a' + counter)
+            console.log("This is width!")
+            console.log(currentWidth)
+            // var animation = this.querySelector('.a-animation')
+            scene.appendChild(entity);
+            scene.appendChild(text);
+
+
+            // $("a-box").setAttribute('position', '0 0 0');
+            if (counter == 1)
+              {
+                var position = document.querySelector("#test").getAttribute("position")
+            document.querySelector("#test").innerHTML = `
+               attribute = "position"
+               position = "{position} .5 -7"
+              `
+              }
+            else if ( counter == 2)
+            {
+              var position = document.querySelector("#a1").getAttribute("position")
+            document.querySelector("#a1").innerHTML = `
+               attribute = "position"
+               position = "{position} .5 -7"`
+            }
+            else
+              {
+                var position = document.querySelector("#a"+(counter-1)).getAttribute("position")
+                document.querySelector("#a"+(counter-1)).innerHTML = `
+                attribute = "position"
+                position = "{position} .5 -7"`
+                var previousX = document.querySelector("#a" + (counter - 2)).getAttribute("position")
+                var previousWidth = document.querySelector("#a" + (counter-2)).getAttribute("geometry").width
+                // var previousPosition = document.querySelector("#a" + (counter-2)).getAttribute("position")
+                // previousPosition["x"] += previousWidth
+                // var previousXFinal = previousPosition
+                var currentX = document.querySelector("#a" + (counter - 1)).getAttribute("position")
+                var currentWidth = document.querySelector("#a" + (counter-1)).getAttribute("geometry").width
+                // var currentPosition = document.querySelector("#a" + (counter-1)).getAttribute("position")
+                // currentPosition["x"] += currentWidth
+                // var currentXFinal = currentPosition
+
+                if ( currentX["x"] < previousX["x"])
+                  {
+                    // currentX["x"] = previousX["x"]
+                    let position = previousX
+                    console.log(currentX)
+                    console.log(currentX["x"])
+                    console.log(previousX["x"])
+                    console.log("Left side Bigger")
+                    // {x: 4.523399899948477, y: 2.5, z: -7}
+                    let x = previousX["x"]
+                    let y = height-1
+                    let z = -7
+                    newLocation = {x: x, y:y, z:z}
+                    var difference = currentX["x"] - previousX["x"]
+                    currentWidth += difference
+                    // console.log(position)
+                    document.querySelector("#a"+(counter-1)).setAttribute("position", newLocation)
+                    document.querySelector("#a"+(counter-1)).setAttribute('geometry', 'primitive: box; width:' + currentWidth + '; height:1 ; depth: 1')
+                  }
+                if ( (currentX["x"] + currentWidth) > (previousX["x"]+previousWidth))
+                  {
+
+                    console.log(currentX["x"] + currentWidth)
+                    console.log(previousX["x"] + previousWidth)
+                    console.log("Right Side bigger")
+                    // console.log(position)
+                  }
+                // currentPosition["x"] -= currentWidth
+                    // var previousX = document.querySelector("#a" + (counter - 2)).getAttribute("position")
+                    // console.log("This is previousX " + previousX)
+                    // var previousFinal = document.querySelector("#a" + (counter -2)).getAttribute("position") + document.querySelector("#a" + (counter-2)).getAttribute("geometry").width
+                    // var position = document.querySelector("#a" + (counter-1)).getAttribute("position")
+                    // console.log("This is important " + position)
+                    // document.querySelector("#a" + (counter-1)).innerHTML = `
+                    // attribute = "position"
+                    // position = "{position} .5 -7" `
+                    // // var positionFinal = document.querySelector("#a" + counter).getAttribute("position") + document.querySelector("#a" + counter).getAttribute("geometry").width
+                    // var changeInitial = position - previousX
+                    // // var changeFinal = positionFinal - previousFinal
+                    // console.log(previousX)
+                    // console.log("This is position" + position)
+                    // console.log(changeInitial)
+                    // // console.log(changeFinal)
+                    // document.querySelector("#a" + (counter-1)).setAttribute("position", previousX)
+                    // document.querySelector("#a" + (counter-1)).setAttribute("geometry", "primitive: box; width:" + (changeInitial) + " ; height:1 ; depth: 1")
+                    // // console.log(document.querySelector("#a" + thing).geometry)
+                    // // document.querySelector("#a" + (counter-2)).innerHTML = `
+                    // // attribute = "position"
+                    // // position = "${position} .5 -7"
+                    // // `
+
+              }
+            // var width = document.querySelector("#test")
+            // var test = document.querySelector("#test")
+            console.log(this);
+            // scene.querySelector('a-cylinder').innerHTML = '<a-animation></a-animation>'
+          }
+        });
+      });
+    </script>
+<!-- <script>
+var counter = 0;
+var yPos = 0.5;
+
+function myFunction()
+  {
+    counter+=1;
+    var scene = document.querySelector('a-scene');
+    var box = document.createElement('a-box');
+    box.setAttribute('color', '#BD703B');
+    box.setAttribute('height', '1');
+    box.setAttribute('depth', '1');
+    box.setAttribute('width' , '1.5');
+    box.setAttribute('shadow');
+    box.setAttribute('position', '-1 ' + (counter+.5) + ' -7');
+    this.innerHTML = '<a-animation> attribute = "scale", to="1 0.5 1", direction="alternate", dur="2000", repeat="indefinite", easing="linear" </animation>'
+    // var animation = this.querySelector('.a-animation')
+    scene.appendChild(box);
+    // scene.querySelector('a-cylinder').innerHTML = '<a-animation></a-animation>'
+
+  }
+  </script> -->
+   <!-- <script src =" MDN-Games-3D/A-Frame/js/aframe.min.js "> </script> -->
+ </head>
+ <body>
+   <script>
+    var obj = JSON.parse(utter.json);
+    var sound1 = new Audio('https://cdn.glitch.com/cddf2fa1-90e7-495c-96e7-	8c0d028adcc9%2Fbensound-cute.mp3?1510477767832');
+    if (obj.utter == "stack") {
+    sound1.play();
+    }
+  });
+}
+
+
+</script>
+
+
+
+
+   <a-scene>
+     <a-assets>
+      <img id="backgroundInsideHouse" crossorigin="anonymous" src="https://cdn.glitch.com/cddf2fa1-90e7-495c-96e7-8c0d028adcc9%2F36623442426_7497d056a6_k.jpg?1510469868291">
+      <img id="cobble" src="https://cdn.glitch.com/cddf2fa1-90e7-495c-96e7-8c0d028adcc9%2Fcobble.jpg?1510492257743">
+      </a-assets>
+       <a-sky id="background-img" src="#backgroundInsideHouse"></a-sky>
+     <a-entity camera="userHeight: 1.6" look-controls wasd-controls></a-entity>
+     <!--left and right borders-->
+     <a-box position="-15 0.5 -4" rotation="0 0 0"  color="#D16E59" depth="30" height="1" width="1" material="src:#cobble;"></a-box>
+     <a-box position="15 0.5 -4" rotation="0 0 0"  color="#D16E59" depth="30" height="1" width="1" material="src:#cobble;"></a-box>
+     <!--top and bottom borders-->
+     <a-box position="0 0.5 -19" rotation="0 0 0"  color="#D16E59" depth="1" height="1" width="30" material="src:#cobble;"></a-box>
+     <a-box position="0 0.5 11" rotation="0 0 0"  color="#D16E59" depth="1" height="1" width="30" material="src:#cobble;"></a-box>
+     <!--box-->
+     <a-entity id="test" geometry="primitive: box; width: 6; height:1 ; depth: 1" rotation="0 0 0" color="12" shadow>
+      <a-animation
+       attribute="position"
+       from="0 .5 -7"
+       to="10 .5 -7"
+       repeat = "indefinite"
+       direction="alternate"
+       easing = "ease"
+       dur = "2000">
+     </a-animation>
+     </a-entity>
+<!--      <a-box position="-1 0.5 -7" rotation="0 0 0" color="#BD703B" depth="1" height="1" width="1.5" shadow>
+     <a-animation
+       attribute="position"
+       from="-5 .5 -7"
+       to="5 .5 -7"
+       repeat = "indefinite"
+       direction="alternate"
+       easing = "ease">
+     </a-animation>
+     </a-box> -->
+     <!--plane-->
+     <a-plane color="#60250D" position="0 0 -4" rotation="-90 0 0" width="30" height="30" material="src:https://cdn.glitch.com/cddf2fa1-90e7-495c-96e7-8c0d028adcc9%2Fgrasss'.jpg?1510470872387; "></a-plane>
+   </a-scene>
+ </body>
+</html>
