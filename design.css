@@ -1,0 +1,9 @@
+div.boxMove {
+  
+       attribute: position; 
+       from:"-5 .5 -7" ;
+       to:"5 .5 -7";
+       repeat:"indefinite";
+       direction:"alternate";
+       easing :"ease";
+}
